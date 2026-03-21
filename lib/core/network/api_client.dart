@@ -5,7 +5,7 @@ class ApiClient {
   static const String baseUrl = 'http://localhost:3000/api'; // Update to Render URL later
 
   final Dio _dio = Dio(BaseOptions(
-    baseUrl: baseUrl,
+    baseUrl: 'https://aqar-morocco.onrender.com/api',
     connectTimeout: const Duration(seconds: 15),
     receiveTimeout: const Duration(seconds: 15),
   ));
