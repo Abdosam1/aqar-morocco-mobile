@@ -2,11 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class AppTheme {
-  // Moroccan Colors
-  static const Color primaryGreen = Color(0xFF006241); // Deep Moroccan Green
-  static const Color gold = Color(0xFFC19A6B); // Desert Gold / Zellige
-  static const Color background = Color(0xFFF8F9FA);
+  // Premium Moroccan Palette
+  static const Color primaryGreen = Color(0xFF006D44); // Richer Forest Green
+  static const Color accentGold = Color(0xFFD4AF37); // Metallic Gold
+  static const Color deepNavy = Color(0xFF1A1F2C); // For text
+  static const Color background = Color(0xFFF7F9FC);
   static const Color cardBg = Colors.white;
+  static const Color softGrey = Color(0xFFE2E8F0);
 
   static ThemeData get lightTheme {
     return ThemeData(
@@ -15,43 +17,67 @@ class AppTheme {
       colorScheme: ColorScheme.fromSeed(
         seedColor: primaryGreen,
         primary: primaryGreen,
-        secondary: gold,
+        secondary: accentGold,
         surface: cardBg,
+        onSurface: deepNavy,
       ),
       scaffoldBackgroundColor: background,
-      textTheme: GoogleFonts.outfitTextTheme(),
-      appBarTheme: const AppBarTheme(
-        backgroundColor: Colors.white,
+      textTheme: GoogleFonts.outfitTextTheme().apply(
+        bodyColor: deepNavy,
+        displayColor: deepNavy,
+      ),
+      appBarTheme: AppBarTheme(
+        backgroundColor: background,
         elevation: 0,
         centerTitle: false,
-        iconTheme: IconThemeData(color: Colors.black),
-        titleTextStyle: TextStyle(
-          color: Colors.black,
-          fontSize: 20,
+        iconTheme: const IconThemeData(color: deepNavy),
+        titleTextStyle: GoogleFonts.outfit(
+          color: deepNavy,
+          fontSize: 22,
           fontWeight: FontWeight.bold,
+          letterSpacing: -0.5,
         ),
       ),
-      cardTheme: CardTheme(
+      cardTheme: CardThemeData(
         color: cardBg,
-        elevation: 0,
+        elevation: 4,
+        shadowColor: Colors.black.withOpacity(0.05),
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(24),
-          side: BorderSide(color: Colors.grey.shade100),
+          borderRadius: BorderRadius.circular(28),
         ),
       ),
       elevatedButtonTheme: ElevatedButtonThemeData(
         style: ElevatedButton.styleFrom(
           backgroundColor: primaryGreen,
           foregroundColor: Colors.white,
-          minimumSize: const Size(double.infinity, 56),
+          minimumSize: const Size(double.infinity, 60),
+          elevation: 0,
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(16),
+            borderRadius: BorderRadius.circular(20),
           ),
-          textStyle: const TextStyle(
-            fontSize: 16,
+          textStyle: GoogleFonts.outfit(
+            fontSize: 17,
             fontWeight: FontWeight.bold,
           ),
         ),
+      ),
+      inputDecorationTheme: InputDecorationTheme(
+        filled: true,
+        fillColor: Colors.white,
+        contentPadding: const EdgeInsets.symmetric(horizontal: 20, vertical: 18),
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(20),
+          borderSide: BorderSide.none,
+        ),
+        enabledBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(20),
+          borderSide: BorderSide.none,
+        ),
+        focusedBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(20),
+          borderSide: const BorderSide(color: primaryGreen, width: 1.5),
+        ),
+        labelStyle: const TextStyle(color: Colors.grey, fontSize: 14),
       ),
     );
   }

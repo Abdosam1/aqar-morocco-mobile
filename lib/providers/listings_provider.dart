@@ -24,4 +24,20 @@ class ListingsProvider extends ChangeNotifier {
       notifyListeners();
     }
   }
+
+  Future<bool> createListing(Map<String, dynamic> data) async {
+    _loading = true;
+    notifyListeners();
+    try {
+      await _apiClient.dio.post('/listings', data: data);
+      await fetchListings(); // Refresh the list
+      return true;
+    } catch (e) {
+      print('Error creating listing: $e');
+      return false;
+    } finally {
+      _loading = false;
+      notifyListeners();
+    }
+  }
 }

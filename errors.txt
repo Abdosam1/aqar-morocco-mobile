@@ -1,0 +1,6 @@
+﻿ERROR|COMPILE_TIME_ERROR|ARGUMENT_TYPE_NOT_ASSIGNABLE|D:\\app location\\aqar_morocco_mobile\\lib\\core\\theme\\app_theme.dart|34|18|228|The argument type 'CardTheme' can't be assigned to the parameter type 'CardThemeData?'. 
+ERROR|COMPILE_TIME_ERROR|UNDEFINED_ENUM_CONSTANT|D:\\app location\\aqar_morocco_mobile\\lib\\ui\\screens\\listing\\listing_detail_screen.dart|42|60|7|There's no constant named 'between' in 'MainAxisAlignment'.
+ERROR|COMPILE_TIME_ERROR|INVALID_CONSTANT|D:\\app location\\aqar_morocco_mobile\\lib\\ui\\screens\\listing\\listing_detail_screen.dart|73|53|12|Invalid constant value.
+ERROR|COMPILE_TIME_ERROR|UNDEFINED_GETTER|D:\\app location\\aqar_morocco_mobile\\lib\\ui\\screens\\listing\\listing_detail_screen.dart|73|60|5|The getter 'slate' isn't defined for the type 'Colors'.
+ERROR|COMPILE_TIME_ERROR|UNDEFINED_IDENTIFIER|D:\\app location\\aqar_morocco_mobile\\lib\\ui\\widgets\\listing_card.dart|28|15|8|Undefined name 'Position'.
+ERROR|COMPILE_TIME_ERROR|UNDEFINED_IDENTIFIER|D:\\app location\\aqar_morocco_mobile\\lib\\ui\\widgets\\listing_card.dart|28|25|4|Undefined name 'SAME'.

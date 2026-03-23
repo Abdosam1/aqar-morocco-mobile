@@ -3,8 +3,8 @@ import 'package:provider/provider.dart';
 import 'package:lucide_icons/lucide_icons.dart';
 import 'package:aqar_morocco_mobile/core/theme/app_theme.dart';
 import 'package:aqar_morocco_mobile/providers/auth_provider.dart';
-import 'package:aqar_morocco_mobile/ui/screens/auth/login_screen.dart';
 import 'package:aqar_morocco_mobile/ui/screens/home/home_screen.dart';
+import 'package:aqar_morocco_mobile/ui/screens/auth/onboarding_screen.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -29,7 +29,7 @@ class _SplashScreenState extends State<SplashScreen> {
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(
-          builder: (_) => auth.isAuthenticated ? const HomeScreen() : const LoginScreen(),
+          builder: (_) => auth.isAuthenticated ? const HomeScreen() : const OnboardingScreen(),
         ),
       );
     }
@@ -43,7 +43,7 @@ class _SplashScreenState extends State<SplashScreen> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            const Icon(LucideIcons.home, size: 80, color: AppTheme.gold),
+            const Icon(LucideIcons.home, size: 80, color: AppTheme.accentGold),
             const SizedBox(height: 24),
             Text(
               'Aqar Morocco',

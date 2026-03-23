@@ -1,0 +1,18 @@
+{
+  "@@locale": "ar",
+  "appTitle": "عقار المغرب",
+  "searchHint": "أين تود السكن؟",
+  "rent": "كراء",
+  "sale": "شراء",
+  "apartments": "شقق",
+  "villas": "فيلات",
+  "riads": "رياضات",
+  "lands": "أراضي",
+  "newInMorocco": "جديد المغرب",
+  "allListings": "كل الإعلانات",
+  "noListingsFound": "لم يتم العثور على أي إعلانات",
+  "home": "الرئيسية",
+  "favorites": "المفضلة",
+  "messages": "الرسائل",
+  "profile": "الحساب"
+}
