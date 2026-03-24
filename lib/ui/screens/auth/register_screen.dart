@@ -49,7 +49,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
             );
 
             if (success && mounted) {
-              // Pop RoleSelection and then push Home
               Navigator.of(context).pop();
               Navigator.pushReplacement(
                 context,
@@ -79,71 +78,103 @@ class _RegisterScreenState extends State<RegisterScreen> {
     super.dispose();
   }
 
+  InputDecoration _inputDecoration({required String label, required IconData icon, Widget? suffix}) {
+    return InputDecoration(
+      labelText: label,
+      labelStyle: GoogleFonts.outfit(color: AppTheme.textSecondary, fontSize: 14),
+      prefixIcon: Icon(icon, size: 20, color: AppTheme.textSecondary),
+      suffixIcon: suffix,
+      filled: true,
+      fillColor: AppTheme.cardDark,
+      border: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(16),
+        borderSide: BorderSide(color: AppTheme.borderDark),
+      ),
+      enabledBorder: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(16),
+        borderSide: BorderSide(color: AppTheme.borderDark),
+      ),
+      focusedBorder: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(16),
+        borderSide: const BorderSide(color: AppTheme.primaryEmerald, width: 1.5),
+      ),
+      errorBorder: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(16),
+        borderSide: const BorderSide(color: Colors.redAccent),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: AppTheme.darkBackground,
       body: SafeArea(
         child: SingleChildScrollView(
-          padding: const EdgeInsets.all(32.0),
+          padding: const EdgeInsets.all(28.0),
           child: Form(
             key: _formKey,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const SizedBox(height: 16),
+                const SizedBox(height: 8),
                 IconButton(
                   onPressed: () => Navigator.pushReplacement(
                     context,
                     MaterialPageRoute(builder: (_) => const LoginScreen()),
                   ),
-                  icon: const Icon(LucideIcons.chevronLeft, color: AppTheme.deepNavy),
+                  icon: const Icon(LucideIcons.chevronLeft, color: Colors.white),
                 ),
-                const SizedBox(height: 24),
+                const SizedBox(height: 20),
                 Text(
                   context.l('create_account'),
                   style: GoogleFonts.outfit(
-                    fontSize: 36, 
-                    fontWeight: FontWeight.bold,
-                    color: AppTheme.deepNavy,
+                    fontSize: 34,
+                    fontWeight: FontWeight.w800,
+                    color: Colors.white,
                     letterSpacing: -1,
                   ),
                 ),
-                const SizedBox(height: 12),
+                const SizedBox(height: 6),
+                Text(
+                  'إنشاء حساب جديد',
+                  style: GoogleFonts.notoSansArabic(
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                    color: AppTheme.textSecondary,
+                  ),
+                ),
+                const SizedBox(height: 8),
                 Text(
                   'Inscrivez-vous pour accéder aux meilleures opportunités immobilières.',
                   style: GoogleFonts.outfit(
-                    fontSize: 16,
-                    color: Colors.grey.shade600,
+                    fontSize: 14,
+                    color: AppTheme.textSecondary,
                     height: 1.5,
                   ),
                 ),
-                const SizedBox(height: 36),
+                const SizedBox(height: 32),
 
                 // Full Name
                 TextFormField(
                   controller: _fullNameController,
                   textCapitalization: TextCapitalization.words,
-                  decoration: InputDecoration(
-                    labelText: context.l('full_name'),
-                    prefixIcon: const Icon(LucideIcons.user, size: 20),
-                  ),
+                  style: GoogleFonts.outfit(color: Colors.white),
+                  decoration: _inputDecoration(label: context.l('full_name'), icon: LucideIcons.user),
                   validator: (value) {
                     if (value == null || value.trim().isEmpty) return context.l('name_required');
                     if (value.trim().length < 3) return context.l('min_3_chars');
                     return null;
                   },
                 ),
-                const SizedBox(height: 20),
+                const SizedBox(height: 16),
 
                 // Email
                 TextFormField(
                   controller: _emailController,
                   keyboardType: TextInputType.emailAddress,
-                  decoration: InputDecoration(
-                    labelText: context.l('email'),
-                    prefixIcon: const Icon(LucideIcons.mail, size: 20),
-                  ),
+                  style: GoogleFonts.outfit(color: Colors.white),
+                  decoration: _inputDecoration(label: context.l('email'), icon: LucideIcons.mail),
                   validator: (value) {
                     if (value == null || value.trim().isEmpty) return context.l('email_required');
                     if (!RegExp(r'^[\w\.-]+@[\w\.-]+\.\w+$').hasMatch(value)) {
@@ -152,17 +183,14 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     return null;
                   },
                 ),
-                const SizedBox(height: 20),
+                const SizedBox(height: 16),
 
                 // Phone
                 TextFormField(
                   controller: _phoneController,
                   keyboardType: TextInputType.phone,
-                  decoration: InputDecoration(
-                    labelText: context.l('phone'),
-                    hintText: '06XXXXXXXX',
-                    prefixIcon: const Icon(LucideIcons.phone, size: 20),
-                  ),
+                  style: GoogleFonts.outfit(color: Colors.white),
+                  decoration: _inputDecoration(label: context.l('phone'), icon: LucideIcons.phone),
                   validator: (value) {
                     if (value == null || value.trim().isEmpty) return context.l('phone_required');
                     if (!RegExp(r'^(\+212|0)[5-7][0-9]{8}$').hasMatch(value.trim())) {
@@ -171,17 +199,22 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     return null;
                   },
                 ),
-                const SizedBox(height: 24),
+                const SizedBox(height: 16),
 
                 // Password
                 TextFormField(
                   controller: _passwordController,
                   obscureText: _obscurePassword,
-                  decoration: InputDecoration(
-                    labelText: context.l('password'),
-                    prefixIcon: const Icon(LucideIcons.lock, size: 20),
-                    suffixIcon: IconButton(
-                      icon: Icon(_obscurePassword ? LucideIcons.eyeOff : LucideIcons.eye, size: 20),
+                  style: GoogleFonts.outfit(color: Colors.white),
+                  decoration: _inputDecoration(
+                    label: context.l('password'),
+                    icon: LucideIcons.lock,
+                    suffix: IconButton(
+                      icon: Icon(
+                        _obscurePassword ? LucideIcons.eyeOff : LucideIcons.eye,
+                        size: 20,
+                        color: AppTheme.textSecondary,
+                      ),
                       onPressed: () => setState(() => _obscurePassword = !_obscurePassword),
                     ),
                   ),
@@ -191,17 +224,22 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     return null;
                   },
                 ),
-                const SizedBox(height: 20),
+                const SizedBox(height: 16),
 
                 // Confirm Password
                 TextFormField(
                   controller: _confirmPasswordController,
                   obscureText: _obscureConfirm,
-                  decoration: InputDecoration(
-                    labelText: context.l('confirm_password'),
-                    prefixIcon: const Icon(LucideIcons.shieldCheck, size: 20),
-                    suffixIcon: IconButton(
-                      icon: Icon(_obscureConfirm ? LucideIcons.eyeOff : LucideIcons.eye, size: 20),
+                  style: GoogleFonts.outfit(color: Colors.white),
+                  decoration: _inputDecoration(
+                    label: context.l('confirm_password'),
+                    icon: LucideIcons.shieldCheck,
+                    suffix: IconButton(
+                      icon: Icon(
+                        _obscureConfirm ? LucideIcons.eyeOff : LucideIcons.eye,
+                        size: 20,
+                        color: AppTheme.textSecondary,
+                      ),
                       onPressed: () => setState(() => _obscureConfirm = !_obscureConfirm),
                     ),
                   ),
@@ -212,22 +250,33 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     return null;
                   },
                 ),
-                const SizedBox(height: 40),
+                const SizedBox(height: 32),
 
                 // Register Button
                 Consumer<AuthProvider>(
-                  builder: (context, auth, _) => ElevatedButton(
-                    onPressed: auth.loading ? null : _handleRegister,
-                    child: auth.loading
-                      ? const SizedBox(
-                          height: 24, 
-                          width: 24, 
-                          child: CircularProgressIndicator(color: Colors.white, strokeWidth: 2)
-                        )
-                      : Text(context.l('register')),
+                  builder: (context, auth, _) => SizedBox(
+                    width: double.infinity,
+                    height: 56,
+                    child: ElevatedButton(
+                      onPressed: auth.loading ? null : _handleRegister,
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: AppTheme.primaryEmerald,
+                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+                      ),
+                      child: auth.loading
+                          ? const SizedBox(
+                              height: 24,
+                              width: 24,
+                              child: CircularProgressIndicator(color: Colors.white, strokeWidth: 2),
+                            )
+                          : Text(
+                              context.l('register'),
+                              style: GoogleFonts.outfit(fontSize: 17, fontWeight: FontWeight.bold, color: Colors.white),
+                            ),
+                    ),
                   ),
                 ),
-                const SizedBox(height: 32),
+                const SizedBox(height: 28),
 
                 Center(
                   child: GestureDetector(
@@ -237,13 +286,13 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     ),
                     child: RichText(
                       text: TextSpan(
-                        style: GoogleFonts.outfit(color: Colors.grey.shade600, fontSize: 15),
+                        style: GoogleFonts.outfit(color: AppTheme.textSecondary, fontSize: 14),
                         children: [
                           TextSpan(text: context.l('already_account_link')),
                           TextSpan(
                             text: context.l('login_header'),
                             style: const TextStyle(
-                              color: AppTheme.primaryGreen,
+                              color: AppTheme.primaryEmerald,
                               fontWeight: FontWeight.bold,
                             ),
                           ),
@@ -252,7 +301,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     ),
                   ),
                 ),
-                const SizedBox(height: 32),
+                const SizedBox(height: 24),
               ],
             ),
           ),

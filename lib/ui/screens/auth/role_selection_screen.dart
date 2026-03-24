@@ -16,29 +16,39 @@ class RoleSelectionScreen extends StatefulWidget {
 }
 
 class _RoleSelectionScreenState extends State<RoleSelectionScreen> {
-  final Map<String, RoleInfo> _roles = {
+  // Group 1: Seekers (those looking for properties)
+  final Map<String, RoleInfo> _seekerRoles = {
     'buyer': RoleInfo(
       title: 'Acheteur',
+      titleAr: 'مشتري',
       description: 'Je souhaite acheter un bien immobilier',
       icon: LucideIcons.search,
     ),
     'tenant': RoleInfo(
       title: 'Locataire',
+      titleAr: 'مستأجر',
       description: 'Je recherche un bien à louer',
       icon: LucideIcons.key,
     ),
+  };
+
+  // Group 2: Owners (those listing properties)
+  final Map<String, RoleInfo> _ownerRoles = {
     'seller': RoleInfo(
       title: 'Vendeur',
+      titleAr: 'بائع',
       description: 'Je souhaite vendre ma propriété',
       icon: LucideIcons.home,
     ),
     'landlord': RoleInfo(
       title: 'Bailleur',
+      titleAr: 'مؤجر',
       description: 'Je souhaite mettre en location mon bien',
       icon: LucideIcons.userCheck,
     ),
     'agency': RoleInfo(
       title: 'Agence / Courtier',
+      titleAr: 'وكالة / وسيط',
       description: 'Je gère plusieurs biens et prospects',
       icon: LucideIcons.briefcase,
     ),
@@ -49,12 +59,12 @@ class _RoleSelectionScreenState extends State<RoleSelectionScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.grey[50],
+      backgroundColor: AppTheme.darkBackground,
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,
         leading: IconButton(
-          icon: const Icon(LucideIcons.chevronLeft, color: Colors.black),
+          icon: const Icon(LucideIcons.chevronLeft, color: Colors.white),
           onPressed: () => Navigator.pop(context),
         ),
       ),
@@ -68,113 +78,59 @@ class _RoleSelectionScreenState extends State<RoleSelectionScreen> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      'Que souhaitez-vous faire ?',
+                      'Que souhaitez-vous\nfaire ?',
                       style: GoogleFonts.outfit(
-                        fontSize: 28,
+                        fontSize: 32,
+                        fontWeight: FontWeight.w800,
+                        color: Colors.white,
+                        height: 1.1,
+                      ),
+                    ),
+                    const SizedBox(height: 6),
+                    Text(
+                      'ماذا تريد أن تفعل؟',
+                      style: GoogleFonts.notoSansArabic(
+                        fontSize: 20,
                         fontWeight: FontWeight.bold,
-                        color: AppTheme.primaryColor,
+                        color: AppTheme.textSecondary,
                       ),
                     ),
                     const SizedBox(height: 8),
                     Text(
                       'Vous pouvez sélectionner plusieurs options.',
                       style: GoogleFonts.outfit(
-                        fontSize: 16,
-                        color: Colors.grey[600],
+                        fontSize: 14,
+                        color: AppTheme.textSecondary,
                       ),
                     ),
                     const SizedBox(height: 32),
-                    ..._roles.entries.map((entry) {
-                      final key = entry.key;
-                      final role = entry.value;
-                      final isSelected = _selectedRoles.contains(key);
 
-                      return GestureDetector(
-                        onTap: () {
-                          setState(() {
-                            if (isSelected) {
-                              _selectedRoles.remove(key);
-                            } else {
-                              _selectedRoles.add(key);
-                            }
-                          });
-                        },
-                        child: AnimatedContainer(
-                          duration: const Duration(milliseconds: 200),
-                          margin: const EdgeInsets.only(bottom: 16),
-                          padding: const EdgeInsets.all(20),
-                          decoration: BoxDecoration(
-                            color: isSelected ? AppTheme.primaryColor : Colors.white,
-                            borderRadius: BorderRadius.circular(20),
-                            border: Border.all(
-                              color: isSelected ? AppTheme.primaryColor : Colors.grey[200]!,
-                              width: 2,
-                            ),
-                            boxShadow: [
-                              BoxShadow(
-                                color: Colors.black.withOpacity(0.03),
-                                blurRadius: 10,
-                                offset: const Offset(0, 4),
-                              ),
-                            ],
-                          ),
-                          child: Row(
-                            children: [
-                              Container(
-                                padding: const EdgeInsets.all(12),
-                                decoration: BoxDecoration(
-                                  color: isSelected
-                                      ? Colors.white.withOpacity(0.2)
-                                      : AppTheme.primaryColor.withOpacity(0.1),
-                                  borderRadius: BorderRadius.circular(12),
-                                ),
-                                child: Icon(
-                                  role.icon,
-                                  color: isSelected ? Colors.white : AppTheme.primaryColor,
-                                  size: 24,
-                                ),
-                              ),
-                              const SizedBox(width: 20),
-                              Expanded(
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      role.title,
-                                      style: GoogleFonts.outfit(
-                                        fontSize: 18,
-                                        fontWeight: FontWeight.bold,
-                                        color: isSelected ? Colors.white : Colors.black,
-                                      ),
-                                    ),
-                                    const SizedBox(height: 4),
-                                    Text(
-                                      role.description,
-                                      style: GoogleFonts.outfit(
-                                        fontSize: 14,
-                                        color: isSelected
-                                            ? Colors.white.withOpacity(0.8)
-                                            : Colors.grey[600],
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                              if (isSelected)
-                                const Icon(
-                                  LucideIcons.checkCircle,
-                                  color: Colors.white,
-                                  size: 24,
-                                ),
-                            ],
-                          ),
-                        ),
-                      );
-                    }).toList(),
+                    // GROUP 1: Seekers
+                    _buildGroupHeader(
+                      icon: LucideIcons.search,
+                      title: 'Je cherche un bien',
+                      titleAr: 'أبحث عن عقار',
+                    ),
+                    const SizedBox(height: 12),
+                    ..._seekerRoles.entries.map((e) => _buildRoleCard(e.key, e.value)),
+
+                    const SizedBox(height: 28),
+
+                    // GROUP 2: Owners
+                    _buildGroupHeader(
+                      icon: LucideIcons.building,
+                      title: 'Je propose un bien',
+                      titleAr: 'أعرض عقاراً',
+                    ),
+                    const SizedBox(height: 12),
+                    ..._ownerRoles.entries.map((e) => _buildRoleCard(e.key, e.value)),
+
+                    const SizedBox(height: 24),
                   ],
                 ),
               ),
             ),
+            // Continue Button
             Padding(
               padding: const EdgeInsets.all(24),
               child: SizedBox(
@@ -185,10 +141,10 @@ class _RoleSelectionScreenState extends State<RoleSelectionScreen> {
                       ? null
                       : () => widget.onRolesSelected(_selectedRoles.toList()),
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: AppTheme.primaryColor,
-                    disabledBackgroundColor: Colors.grey[300],
+                    backgroundColor: AppTheme.primaryEmerald,
+                    disabledBackgroundColor: AppTheme.cardDark,
                     shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(16),
+                      borderRadius: BorderRadius.circular(20),
                     ),
                     elevation: 0,
                   ),
@@ -208,15 +164,138 @@ class _RoleSelectionScreenState extends State<RoleSelectionScreen> {
       ),
     );
   }
+
+  Widget _buildGroupHeader({required IconData icon, required String title, required String titleAr}) {
+    return Row(
+      children: [
+        Container(
+          padding: const EdgeInsets.all(8),
+          decoration: BoxDecoration(
+            color: AppTheme.primaryEmerald.withOpacity(0.1),
+            borderRadius: BorderRadius.circular(10),
+          ),
+          child: Icon(icon, color: AppTheme.primaryEmerald, size: 18),
+        ),
+        const SizedBox(width: 12),
+        Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              title,
+              style: GoogleFonts.outfit(
+                fontSize: 16,
+                fontWeight: FontWeight.bold,
+                color: AppTheme.primaryEmerald,
+              ),
+            ),
+            Text(
+              titleAr,
+              style: GoogleFonts.notoSansArabic(
+                fontSize: 12,
+                color: AppTheme.textSecondary,
+              ),
+            ),
+          ],
+        ),
+      ],
+    );
+  }
+
+  Widget _buildRoleCard(String key, RoleInfo role) {
+    final isSelected = _selectedRoles.contains(key);
+    return GestureDetector(
+      onTap: () {
+        setState(() {
+          if (isSelected) {
+            _selectedRoles.remove(key);
+          } else {
+            _selectedRoles.add(key);
+          }
+        });
+      },
+      child: AnimatedContainer(
+        duration: const Duration(milliseconds: 200),
+        margin: const EdgeInsets.only(bottom: 12),
+        padding: const EdgeInsets.all(18),
+        decoration: BoxDecoration(
+          color: isSelected ? AppTheme.primaryEmerald.withOpacity(0.15) : AppTheme.cardDark,
+          borderRadius: BorderRadius.circular(20),
+          border: Border.all(
+            color: isSelected ? AppTheme.primaryEmerald : AppTheme.borderDark,
+            width: isSelected ? 2 : 1,
+          ),
+        ),
+        child: Row(
+          children: [
+            Container(
+              padding: const EdgeInsets.all(10),
+              decoration: BoxDecoration(
+                color: isSelected
+                    ? AppTheme.primaryEmerald.withOpacity(0.2)
+                    : Colors.white.withOpacity(0.05),
+                borderRadius: BorderRadius.circular(12),
+              ),
+              child: Icon(
+                role.icon,
+                color: isSelected ? AppTheme.primaryEmerald : AppTheme.textSecondary,
+                size: 22,
+              ),
+            ),
+            const SizedBox(width: 16),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Row(
+                    children: [
+                      Text(
+                        role.title,
+                        style: GoogleFonts.outfit(
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
+                          color: isSelected ? Colors.white : Colors.white.withOpacity(0.9),
+                        ),
+                      ),
+                      const SizedBox(width: 8),
+                      Text(
+                        role.titleAr,
+                        style: GoogleFonts.notoSansArabic(
+                          fontSize: 12,
+                          color: isSelected ? AppTheme.primaryEmerald : AppTheme.textSecondary,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 4),
+                  Text(
+                    role.description,
+                    style: GoogleFonts.outfit(
+                      fontSize: 13,
+                      color: AppTheme.textSecondary,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            if (isSelected)
+              const Icon(LucideIcons.checkCircle, color: AppTheme.primaryEmerald, size: 22),
+          ],
+        ),
+      ),
+    );
+  }
 }
 
 class RoleInfo {
   final String title;
+  final String titleAr;
   final String description;
   final IconData icon;
 
   RoleInfo({
     required this.title,
+    required this.titleAr,
     required this.description,
     required this.icon,
   });
