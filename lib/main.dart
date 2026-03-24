@@ -39,7 +39,9 @@ class AqarMoroccoApp extends StatelessWidget {
         return MaterialApp(
           title: 'Aqar Morocco',
           debugShowCheckedModeBanner: false,
-          theme: AppTheme.lightTheme,
+          theme: AppTheme.darkTheme,
+          darkTheme: AppTheme.darkTheme,
+          themeMode: ThemeMode.dark,
           locale: provider.locale,
           localizationsDelegates: const [
             // AppLocalizations.delegate, // Uncomment once generated
